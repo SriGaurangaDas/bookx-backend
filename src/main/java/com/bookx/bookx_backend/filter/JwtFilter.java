@@ -1,5 +1,7 @@
 package com.bookx.bookx_backend.filter;
-
+// Add these imports for logging
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.bookx.bookx_backend.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,6 +25,8 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    // Add Logger instance
+    private static final Logger log = LoggerFactory.getLogger(JwtFilter.class);
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException{
         String authHeader = req.getHeader("Authorization");
