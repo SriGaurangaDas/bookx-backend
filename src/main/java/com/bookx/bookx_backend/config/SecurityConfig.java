@@ -45,11 +45,18 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**","/actuator/health","/error").permitAll()
-                        // Book API security:
-                        .requestMatchers(HttpMethod.POST, "/api/books").authenticated()         // Create book
-                        .requestMatchers(HttpMethod.PUT, "/api/books/**").authenticated()      // Update book
-                        .requestMatchers(HttpMethod.DELETE, "/api/books/**").authenticated()   // Delete book
-                        .requestMatchers(HttpMethod.GET, "/api/books", "/api/books/**").permitAll() // Allow public read access to books (adjust if needed)
+                        // Book API security (updated to /api/v1):
+                        .requestMatchers(HttpMethod.POST, "/api/v1/books").authenticated()         // Create book
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/books/**").authenticated()      // Update book
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/books/**").authenticated()   // Delete book
+                        .requestMatchers(HttpMethod.GET, "/api/v1/books", "/api/v1/books/**").permitAll() // Allow public read access to books
+
+                        // BookListing API security (NEW):
+                        .requestMatchers(HttpMethod.POST, "/api/v1/listings").authenticated()      // Create book listing
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/listings/**").authenticated()   // Update book listing
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/listings/**").authenticated()// Delete book listing
+                        .requestMatchers(HttpMethod.GET, "/api/v1/listings", "/api/v1/listings/**").permitAll() // Allow public read access to listings
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
